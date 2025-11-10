@@ -1,0 +1,61 @@
+# -----------------------------
+# Global ignores
+# -----------------------------
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+.env
+.env.*
+node_modules/
+build/
+dist/
+.idea/
+.vscode/
+*.iml
+*.lock
+
+# -----------------------------
+# Flutter specific ignores
+# -----------------------------
+# Generated files
+**/pubspec.lock
+**/.flutter-plugins
+**/.flutter-plugins-dependencies
+**/.packages
+**/.dart_tool/
+**/build/
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/Flutter.podspec
+**/ios/.symlinks/
+**/ios/Pods/
+**/ios/Runner.xcworkspace/
+**/android/.gradle/
+**/android/app/build/
+**/android/local.properties
+**/web/.dart_tool/
+**/flutter_export_environment.sh
+
+# -----------------------------
+# Node.js specific ignores
+# -----------------------------
+backend/node_modules/
+backend/npm-debug.log*
+backend/package-lock.json
+backend/.env
+backend/.DS_Store
+
+# -----------------------------
+# OS-specific ignores
+# -----------------------------
+# macOS
+*.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
