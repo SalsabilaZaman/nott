@@ -78,6 +78,6 @@ If using an Android emulator, replace `localhost` with your machine IP in `api_s
 ## 👨‍💻 Authors
 
 - Salsabila and Sukanya 🚀
-  Full-stack explorers learning one project at a time!
+- Full-stack explorers learning one project at a time!
 
 ---
