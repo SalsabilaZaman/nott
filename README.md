@@ -1,4 +1,4 @@
-# 📝 Simple Notes App (Flutter + Node.js)
+# 📝 Nott App (Flutter + Node.js)
 
 A beginner-friendly full-stack app demonstrating how to connect a **Flutter frontend** with a **Node.js backend** using REST APIs.
 
