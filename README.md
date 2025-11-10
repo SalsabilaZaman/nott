@@ -45,7 +45,7 @@ simple-notes-app/
 
 ```bash
 cd backend
-npm install express cors
+npm install express cors dotenv nodemon
 node server.js
 ```
 
