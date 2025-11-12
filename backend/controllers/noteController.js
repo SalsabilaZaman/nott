@@ -9,7 +9,11 @@ const getAllNotes = (req, res) => {
 // @route POST /api/notes
 // @access Public
 const createNote = async(req, res) => {
-  const noteText = req.body || 'Sample note text';
+  const noteText = req.body ;
+  if(!noteText){
+    res.status(400)
+    throw new Error('Note text is required')
+  }
   res.status(201).json({ message: 'Note created successfully', noteText });
 };
 
