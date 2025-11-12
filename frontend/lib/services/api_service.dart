@@ -61,4 +61,22 @@ class ApiService {
       throw Exception('Error deleting note: $e');
     }
   }
+
+  static Future<void> updateNote(String id, String newText) async {
+    try {
+      final response = await http
+          .put(
+            Uri.parse('$baseUrl/notes/$id'),
+            headers: {'Content-Type': 'application/json'},
+            body: json.encode({'text': newText}),
+          )
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to update note: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error updating note: $e');
+    }
+  }
 }
