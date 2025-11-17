@@ -14,28 +14,16 @@ let idCounter = 4;
 // @access Public
 const getAllNotes = asyncHandler(async(req, res) => {
   const notes = await Note.find({});
+  if (notes.length === 0) {
+    return res.status(404).json({ message: "No notes found" });
+  }
   res.status(200).json(notes);
-  // res.status(200).json({ notes });
 });
 
 // @desc Create a new note
 // @route POST /api/notes
 // @access Public
 const createNote = asyncHandler(async(req, res) => {
-  // const { text } = req.body;
-
-  // if (!text || text.trim() === "") {
-  //   return res.status(400).json({ message: "Note text is required" });
-  // }
-
-  // const newNote = {
-  //   id: idCounter.toString(),
-  //   text: text.trim(),
-  // };
-
-  // notes.push(newNote);
-  // idCounter++;
-
   const { title, content } = req.body;
 
   if (!title || title.trim() === "" || !content || content.trim() === "") {
@@ -74,15 +62,14 @@ const updateNoteById = asyncHandler(async(req, res) => {
 // @route DELETE /api/notes/:id
 // @access Public
 const deleteNoteById = asyncHandler(async(req, res) => {
-  const noteId = req.params.id;
-  const initialLength = notes.length;
-  notes = notes.filter((n) => n.id !== noteId);
-
-  if (notes.length === initialLength) {
-    return res.status(404).json({ message: "Note not found" });
+  const note = await Note.findById(req.params.id);
+  if (!note) {
+    return res.status(404);
+    throw new Error("Note not found");
   }
 
-  res.status(200).json({ message: `Note with ID: ${noteId} deleted successfully` });
+  await Note.findByIdAndDelete(req.params.id);
+  res.status(200).json(note);
 });
 
 // @desc Get a single note by ID
@@ -91,7 +78,10 @@ const deleteNoteById = asyncHandler(async(req, res) => {
 const getNoteById = asyncHandler(async(req, res) => {
   const note = await Note.findById(req.params.id);
   if (!note) {
-    return res.status(404).json({ message: "Note not found" });
+    // return res.status(404).json({ message: "Note not found" });
+    
+    res.status(404);
+    throw new Error("Note not found");
   }
 
   res.status(200).json(note);
