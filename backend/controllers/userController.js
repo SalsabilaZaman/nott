@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 //@desc Register a new user
 // @route POST /api/users/register
@@ -22,15 +23,21 @@ const registerUser = asyncHandler(async(req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(hashedPassword);
+//   console.log(hashedPassword);
   // Create new user
-//   const newUser = await User.create({
-//     username: username.trim(),
-//     email: email.trim(),
-//     password: hashedPassword,
-//   });
-
-  res.status(201).json({ message: "User registered successfully", user: newUser });
+  const newUser = await User.create({
+    name: username.trim(),
+    email: email.trim(),
+    password: hashedPassword,
+  });
+  if(newUser){
+    res.status(201).json({_id: newUser._id, name: newUser.name, email: newUser.email});
+  }
+  else{
+    res.status(400);
+    throw new Error("Invalid user data");
+  }  
+  res.status(201).json({ message: "User registered successfully"});
 });
 
 // @desc Login a user
