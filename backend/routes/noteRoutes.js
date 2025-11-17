@@ -3,10 +3,10 @@ const router = express.Router();
 
 const routeController = require('../controllers/noteController')
 
-router.route('/api/notes').get(routeController.getAllNotes).
+router.route('/').get(routeController.getAllNotes).
                         post(routeController.createNote);
 
-router.route('/api/notes/:id').get(routeController.getNoteById).
+router.route('/:id').get(routeController.getNoteById).
                             put(routeController.updateNoteById).
                             delete(routeController.deleteNoteById);
 
