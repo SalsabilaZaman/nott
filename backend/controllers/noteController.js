@@ -1,19 +1,11 @@
 const asyncHandler = require("express-async-handler");
 const Note = require("../models/noteModel");
 
-let notes = [
-  { id: "1", text: "Note 1" },
-  { id: "2", text: "Note 2" },
-  { id: "3", text: "Note 3" }
-];
-let idCounter = 4;
-
-
 // @desc Get All notes
 // @route GET /api/notes
-// @access Public
-const getAllNotes = asyncHandler(async(req, res) => {
-  const notes = await Note.find({});
+// @access Private
+const getAllNotes = asyncHandler(async (req, res) => {
+  const notes = await Note.find({ user_id: req.user.id });
   if (notes.length === 0) {
     return res.status(404).json({ message: "No notes found" });
   }
@@ -22,8 +14,8 @@ const getAllNotes = asyncHandler(async(req, res) => {
 
 // @desc Create a new note
 // @route POST /api/notes
-// @access Public
-const createNote = asyncHandler(async(req, res) => {
+// @access Private
+const createNote = asyncHandler(async (req, res) => {
   const { title, content } = req.body;
 
   if (!title || title.trim() === "" || !content || content.trim() === "") {
@@ -40,19 +32,17 @@ const createNote = asyncHandler(async(req, res) => {
 
 // @desc Update a note by ID
 // @route PUT /api/notes/:id
-// @access Public
-const updateNoteById = asyncHandler(async(req, res) => {
+// @access Private
+const updateNoteById = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
   if (!note) {
     return res.status(404);
     throw new Error("Note not found");
   }
 
-  const updatedNote = await Note.findByIdAndUpdate(
-    req.params.id,
-    req.body, 
-    { new: true }
-  );
+  const updatedNote = await Note.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
 
   res.status(200).json(updatedNote);
   // res.status(200).json({ message: `Note with ID: ${noteId} updated successfully` });
@@ -60,8 +50,8 @@ const updateNoteById = asyncHandler(async(req, res) => {
 
 // @desc Delete a note by ID
 // @route DELETE /api/notes/:id
-// @access Public
-const deleteNoteById = asyncHandler(async(req, res) => {
+// @access Private
+const deleteNoteById = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
   if (!note) {
     return res.status(404);
@@ -74,12 +64,12 @@ const deleteNoteById = asyncHandler(async(req, res) => {
 
 // @desc Get a single note by ID
 // @route GET /api/notes/:id
-// @access Public
-const getNoteById = asyncHandler(async(req, res) => {
+// @access Private
+const getNoteById = asyncHandler(async (req, res) => {
   const note = await Note.findById(req.params.id);
   if (!note) {
     // return res.status(404).json({ message: "Note not found" });
-    
+
     res.status(404);
     throw new Error("Note not found");
   }
@@ -87,5 +77,10 @@ const getNoteById = asyncHandler(async(req, res) => {
   res.status(200).json(note);
 });
 
-
-module.exports={getAllNotes,createNote,getNoteById,updateNoteById,deleteNoteById}
+module.exports = {
+  getAllNotes,
+  createNote,
+  getNoteById,
+  updateNoteById,
+  deleteNoteById,
+};
