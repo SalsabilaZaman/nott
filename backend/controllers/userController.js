@@ -68,12 +68,10 @@ const loginUser = asyncHandler(async (req, res) => {
       { expiresIn: "1d" }
     );
 
-    res
-      .status(200)
-      .json({
-        "Access Token": accessToken,
-        message: "User logged in successfully",
-      });
+    res.status(200).json({
+      "Access Token": accessToken,
+      message: "User logged in successfully",
+    });
   } else {
     res.status(401);
     throw new Error("Invalid email or password");
@@ -84,13 +82,14 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route GET /api/users/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user.id).select("-password");
-  if (user) {
-    res.status(200).json(user);
-  } else {
-    res.status(404);
-    throw new Error("User not found");
-  }
+  // const user = await User.findById(req.user.id).select("-password");
+  // if (user) {
+  //   res.status(200).json(user);
+  // } else {
+  //   res.status(404);
+  //   throw new Error("User not found");
+  // }
+  console.log("User Profile Accessed");
 });
 
 module.exports = {
