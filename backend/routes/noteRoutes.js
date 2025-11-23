@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const noteController = require("../controllers/noteController");
-const { validate } = require("../models/noteModel");
+const validateToken = require("../middleware/validateTokenHandler");
 
-router.use(validate);
-
+router.use(validateToken);
 router
   .route("/")
   .get(noteController.getAllNotes)

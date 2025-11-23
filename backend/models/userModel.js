@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
+    user_id: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
@@ -28,8 +28,8 @@ const userSchema = new mongoose.Schema(
 );
 
 // Pre-save hook to hash password before saving
-// userSchema.pre('save', async function (next) {
-//   if (!this.isModified('password')) {
+// userSchema.pre("save", async function (next) {
+//   if (!this.isModified("password")) {
 //     return next();
 //   }
 //   const salt = await bcrypt.genSalt(10);

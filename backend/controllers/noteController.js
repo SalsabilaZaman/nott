@@ -25,6 +25,7 @@ const createNote = asyncHandler(async (req, res) => {
   const newNote = await Note.create({
     title: title.trim(),
     content: content.trim(),
+    user_id: req.user.user_id,
   });
 
   res.status(201).json({ message: "Note created successfully", note: newNote });

@@ -26,6 +26,7 @@ const registerUser = asyncHandler(async (req, res) => {
   //   console.log(hashedPassword);
   // Create new user
   const newUser = await User.create({
+    // user_id: new mongoose.Types.ObjectId(),
     name: username.trim(),
     email: email.trim(),
     password: hashedPassword,
@@ -33,7 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
   if (newUser) {
     res
       .status(201)
-      .json({ _id: newUser.id, name: newUser.name, email: newUser.email });
+      .json({ _id: newUser._id, name: newUser.name, email: newUser.email });
   } else {
     res.status(400);
     throw new Error("Invalid user data");
