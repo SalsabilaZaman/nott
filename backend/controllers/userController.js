@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 //@desc Register a new user
 // @route POST /api/users/register
@@ -23,14 +24,14 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  //   console.log(hashedPassword);
   // Create new user
   const newUser = await User.create({
-    // user_id: new mongoose.Types.ObjectId(),
+    user_id: new mongoose.Types.ObjectId().toHexString(),
     name: username.trim(),
     email: email.trim(),
     password: hashedPassword,
   });
+  console.log("User Created:", newUser);
   if (newUser) {
     res
       .status(201)
@@ -83,13 +84,13 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route GET /api/users/profile
 // @access Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  // const user = await User.findById(req.user.id).select("-password");
-  // if (user) {
-  //   res.status(200).json(user);
-  // } else {
-  //   res.status(404);
-  //   throw new Error("User not found");
-  // }
+  const user = await User.findById(req.user.id).select("-password");
+  if (user) {
+    res.status(200).json(user);
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
   console.log("User Profile Accessed");
 });
 
